@@ -59,7 +59,7 @@ ntlmrelayx.py -t ldap://10.129.95.210 --escalate-user dan
 ```
 (10.129.95.210 = target IP)
 
-nevigate to http://127.0.0.1  and enter the user (dan & pass) now wait till it ask for you to run secretsdump.py on creds
+nevigate to http://127.0.0.1  and enter the user (dan & pass) now wait till it ask for you to run secretsdump.py using creds
 
 ### 5. Abusing WriteOwner Privilege
 We're tom user and getting ownership of claire and then change passwd of claire. Import [Powerview.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1).
